@@ -1,0 +1,24 @@
+flowchart TB
+    user[Store Users / POS Clients] --> lb[Cloud Load Balancer]
+    lb --> armor[Cloud Armor]
+    armor --> ingress[GKE Ingress]
+    ingress --> svc[Retail Microservices on GKE]
+
+    svc --> sql[(Cloud SQL PostgreSQL)]
+    svc --> redis[(Memorystore Redis)]
+    svc --> secrets[Secret Manager]
+    svc --> pubsub[Pub/Sub Events]
+
+    cicd[GitHub Actions / CI-CD] --> ar[Artifact Registry]
+    ar --> gke[GKE Private Cluster]
+    gke --> svc
+
+    ops[Cloud Monitoring + Logging] --> gke
+    ops --> sql
+    ops --> redis
+
+    store[Stores / Data Center] --> vpn[Hybrid Connectivity]
+    vpn --> vpc[Google Cloud VPC]
+    vpc --> gke
+    vpc --> sql
+    vpc --> redis

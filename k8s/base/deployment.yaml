@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: retail-pos-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: retail-pos-service
+  template:
+    metadata:
+      labels:
+        app: retail-pos-service
+    spec:
+      containers:
+        - name: retail-pos-service
+          image: europe-west4-docker.pkg.dev/PROJECT_ID/retail-platform-images/retail-pos-service:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_ENV
+              value: "dev"
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

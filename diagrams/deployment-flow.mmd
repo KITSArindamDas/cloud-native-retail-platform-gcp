@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant Dev as Developer
+    participant Git as GitHub
+    participant CI as GitHub Actions
+    participant AR as Artifact Registry
+    participant TF as Terraform
+    participant GKE as GKE
+    participant Mon as Cloud Monitoring
+
+    Dev->>Git: Commit code or Terraform change
+    Git->>CI: Trigger pipeline
+    CI->>CI: Run validation and tests
+    CI->>AR: Build and push container image
+    CI->>TF: Terraform plan/apply
+    TF->>GKE: Provision/update infrastructure
+    CI->>GKE: Deploy Kubernetes manifests
+    GKE->>Mon: Send metrics and logs
+    Mon->>CI: Deployment health feedback
